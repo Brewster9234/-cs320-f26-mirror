@@ -3,18 +3,31 @@ let rec num_digits n =
   else if n < 10 then 1
   else 1 + num_digits (n / 10)
 
-let rec pow k i = if i = 0 then 1 else k * pow k (i - 1)
-
-let rec check k i n =
-  if pow k i > abs n then false
-  else if pow k i = n then true
-  else if pow (0 - k) i = n then true
-  else check (k + 1) i n
-
 let is_perfect_pow i n =
+  let limit = abs n in
+  let rec capped_pow k p =
+    if p = 0 then 1
+    else if k = 0 then 0
+    else
+      let rest = capped_pow k (p - 1) in
+      if rest > limit then limit + 1
+      else
+        let result = k * rest in
+        if result > limit then limit + 1 else result
+  in
+  let is_odd = i mod 2 = 1 in
+  let rec search k =
+    if k > limit then false
+    else
+      let value = capped_pow k i in
+      if value > limit then false
+      else if value = n then true
+      else if is_odd && (0 - value) = n then true
+      else search (k + 1)
+  in
   if i = 1 then true
   else if i = 0 then n = 1
-  else check 0 i n
+  else search 0
 
 let rec factors_from n d =
   if n = 1 then 0
