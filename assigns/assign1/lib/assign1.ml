@@ -1,5 +1,5 @@
 let rec num_digits n = 
-  if n < 0 then num_digits (-n)
+  if n < 0 then num_digits (0 - n)
   else if n < 10 then 1
   else 1 + num_digits (n / 10)
 
@@ -8,7 +8,7 @@ let rec pow k i = if i = 0 then 1 else k * pow k (i - 1)
 let rec check k i n =
   if k > abs n then false
   else if pow k i = n then true
-  else if pow (-k) i = n then true
+  else if pow (0 - k) i = n then true
   else check (k + 1) i n
 
 let is_perfect_pow i n = check 0 i n
