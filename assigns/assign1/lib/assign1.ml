@@ -30,11 +30,11 @@ let rec has_leg_a n a =
   if a >= n then false 
   else if has_leg_b n a a then true
   else has_leg_a n (a + 1)
-  
+
 let is_hypotenuse n = has_leg_a n 1
 
 let rec drop_leading (k: int) (l: int list) : int list =
   match l with
   | h::t when h=k ->
      drop_leading k t
-  | _ ->
+  | _ -> l
