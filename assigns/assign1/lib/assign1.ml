@@ -13,6 +13,7 @@ let rec check k i n =
 
 let is_perfect_pow i n =
   if i = 1 then true
+  else if i = 0 then n = 1
   else check 0 i n
 
 let rec factors_from n d =
