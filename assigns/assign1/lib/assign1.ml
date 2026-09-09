@@ -6,12 +6,14 @@ let rec num_digits n =
 let rec pow k i = if i = 0 then 1 else k * pow k (i - 1)
 
 let rec check k i n =
-  if k > abs n then false
+  if pow k i > abs n then false
   else if pow k i = n then true
   else if pow (0 - k) i = n then true
   else check (k + 1) i n
 
-let is_perfect_pow i n = check 0 i n
+let is_perfect_pow i n =
+  if i = 1 then true
+  else check 0 i n
 
 let rec factors_from n d =
   if n = 1 then 0
