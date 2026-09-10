@@ -5,29 +5,29 @@ let rec num_digits n =
 
 let is_perfect_pow i n =
   let limit = abs n in
-  let rec capped_pow k p =
-    if p = 0 then 1
+  let rec capped_pow_acc k p acc =
+    if p = 0 then acc
     else if k = 0 then 0
-    else
-      let rest = capped_pow k (p - 1) in
-      if rest > limit then limit + 1
-      else
-        let result = k * rest in
-        if result > limit then limit + 1 else result
+    else if k = 1 then acc
+    else if acc > limit / k then limit + 1
+    else capped_pow_acc k (p - 1) (k * acc)
   in
-  let is_odd = i mod 2 = 1 in
-  let rec search k =
-    if k > limit then false
+  let capped_pow k p = capped_pow_acc k p 1 in
+  let rec binary_search lo hi =
+    if lo > hi then false
     else
-      let value = capped_pow k i in
-      if value > limit then false
-      else if value = n then true
-      else if is_odd && (0 - value) = n then true
-      else search (k + 1)
+      let mid = lo + (hi - lo) / 2 in
+      let value = capped_pow mid i in
+      if value = limit then true
+      else if value < limit then binary_search (mid + 1) hi
+      else binary_search lo (mid - 1)
   in
   if i = 1 then true
   else if i = 0 then n = 1
-  else search 0
+  else if i < 0 then (n = 1 || (n = (-1) && (abs i) mod 2 = 1))
+  else if not (binary_search 0 limit) then false
+  else if n >= 0 then true
+  else (abs i) mod 2 = 1
 
 let rec factors_from n d =
   if n = 1 then 0
