@@ -2,3 +2,14 @@
 (name practice)
 (generate_opam_files true)
 (package (name practice) (depends ocaml))
+let negatives l = 
+    let negatives l = List.filter (fun x -> x < 0) l
+
+let gets key l =
+    List.map snd (List.filter (fun (k, _) -> k = key) l)
+ 
+let filter p l = 
+    List.fold_right (fun x acc -> if p x then x :: acc else acc) l []
+
+let append l1 l2 = 
+    List.fold_right (fun x acc -> x :: acc) l1 l2
